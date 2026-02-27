@@ -1,8 +1,11 @@
-﻿@inherits LayoutComponentBase
+﻿@using System.Threading.Tasks
+@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar @(isCollapsed ? "collapsed" : "")">
-        <NavMenu IsCollapsed="@isCollapsed" OnToggle="@ToggleSidebar" />
+    <div class="sidebar @(isCollapsed ? "collapsed" : "")" @onmouseenter="HandleHover">
+        <CascadingValue Value="this">
+            <NavMenu />
+        </CascadingValue>
     </div>
 
     <main>
@@ -24,11 +27,22 @@
 
 @code {
     private bool isCollapsed = false;
+    
+    // Public read-only access
+    public bool IsCollapsed => isCollapsed;
 
-    private void ToggleSidebar()
+    public void ToggleSidebar() 
     {
         isCollapsed = !isCollapsed;
-        Console.WriteLine($"Sidebar collapsed: {isCollapsed}");
-        StateHasChanged(); // Force re-render
+        StateHasChanged();
+    }
+
+    private void HandleHover()
+    {
+        if (isCollapsed) 
+        {
+            isCollapsed = false;
+            StateHasChanged();
+        }
     }
 }

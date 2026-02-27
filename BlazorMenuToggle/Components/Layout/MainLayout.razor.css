@@ -60,7 +60,7 @@ main {
     }
 
     .sidebar.collapsed {
-        width: 50px;
+        width: 85px;
         overflow: hidden;
     }
 
